@@ -1,3 +1,10 @@
 github: [metadata]
 theme: jekyll-theme-architect
-baseurl: /wiki
+url: http://dev.blankon.id
+baseurl: ""
+exclude:
+    - Gemfile
+    - Gemfile.lock
+    - LICENSE
+    - README.rst
+    - script/cibuild
