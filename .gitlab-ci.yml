@@ -1,0 +1,37 @@
+image: "ruby:2.3.3"
+
+variables:
+  VAR: somevar 
+
+cache:
+  paths:
+    - vendor/ruby
+
+stages:
+  - build
+
+before_script:
+  - ruby -v
+  - gem install bundler  --no-ri --no-rdoc
+  - gem install jekyll
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+build:
+  stage: build
+  script:
+  - bundle exec jekyll build
+
+deploy to production:
+  type: deploy
+  stage: deploy
+  environment: production
+  script:
+  - bundle exec jekyll build
+  - find _site/ -type f -name "*.md" -exec rm -f {} \;
+  - rsync -avz --rsh="ssh -p2222" --progress _site/ situs@waljinah.blankon.in:/home/situs/wiki/_site/
+  only:
+  - master

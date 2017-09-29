@@ -1,4 +1,6 @@
-github: [metadata]
+name: Wiki
+description: Wiki Pengembangan Proyek BlankOn
+avatar: ../favicon.ico
 theme: jekyll-theme-architect
 url: http://dev.blankon.id
 baseurl: ""
