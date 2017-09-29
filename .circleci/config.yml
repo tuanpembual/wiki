@@ -1,0 +1,7 @@
+jobs:
+  steps:
+    - run: |
+        bundle install
+        bundle exec jekyll build
+        find _site/ -type f -name "*.md" -exec rm -f {} \;
+
