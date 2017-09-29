@@ -1,7 +1,23 @@
+version: 2
 jobs:
-  steps:
-    - run: |
-        bundle install
-        bundle exec jekyll build
-        find _site/ -type f -name "*.md" -exec rm -f {} \;
-
+  build:
+    working_directory: ~/wiki
+    docker:
+      - image: circleci/ruby:2.3
+    steps:
+      - checkout
+      - run:
+          name: install gem
+          command: 'bundle install'
+      - run:
+          name: build jekyll
+          command: 'bundle exec jekyll build'
+      
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+          filters:
+            branches:
+              only: master
